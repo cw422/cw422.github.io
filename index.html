@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>我的个人主页 | My Personal Homepage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* 基础排版与背景 */
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background: #f5f5f7;
+      color: #222;
+    }
+
+    /* 顶部区域 */
+    header {
+      padding: 2rem 1rem 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+      position: relative;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0 0 0.75rem;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* 顶部导航 */
+    nav {
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: #555;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    nav a:hover {
+      background: #f0f0f5;
+      border-color: #d0d0e0;
+      color: #111;
+    }
+
+    /* 页面主体与卡片布局 */
+    main {
+      max-width: 960px;
+      margin: 2rem auto 3rem;
+      padding: 0 1.5rem;
+    }
+
+    .section-wrapper {
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    /* 每个 section 的标题 + 图标 */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .section-icon {
+      font-size: 1.4rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin: 0;
+    }
+
+    /* 列表与条目统一样式 */
+    .item-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .item-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .item-list li:last-child {
+      border-bottom: none;
+    }
+
+    .item-list strong {
+      display: inline-block;
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+
+    /* 教育经历采用稍微紧凑的风格 */
+    .edu-list li {
+      padding: 0.5rem 0;
+    }
+
+    .edu-list strong {
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    /* 联系方式 */
+    #contact a {
+      color: #3366cc;
+      text-decoration: none;
+    }
+
+    #contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* 页脚 */
+    footer {
+      text-align: center;
+      padding: 1rem 0 1.5rem;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.85rem;
+      color: #777;
+      background: #ffffff;
+    }
+
+    /* 语言切换按钮区域 */
+    .lang-switch {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .lang-switch button {
+      margin-left: 0.5rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      cursor: pointer;
+      font-size: 0.85rem;
+      min-width: 48px;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .lang-switch button.active {
+      font-weight: 600;
+      border-color: #333;
+      background: #e8e8ee;
+      color: #111;
+    }
+
+    /* 自适应小屏 */
+    @media (max-width: 600px) {
+      header {
+        padding-top: 1.5rem;
+      }
+      main {
+        padding: 0 1rem;
+      }
+      .card {
+        padding: 1.25rem 1.25rem;
+      }
+    }
+
+    .about-section {
+  margin-bottom: 2.5rem;
+}
+
+.about-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-photo {
+  width: 240px;
+  height: 240px;
+  border-radius: 70%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #ddd;
+}
+
+/* 小屏幕时让布局更舒服 */
+@media (max-width: 600px) {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-photo {
+    width: 140px;
+    height: 140px;
+  }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <!-- 语言切换按钮 -->
+    <div class="lang-switch">
+      <button id="btn-zh" onclick="setLanguage('zh')">中文</button>
+      <button id="btn-en" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <h1 data-i18n="name"></h1>
+    <p data-i18n="subtitle"></p>
+
+    <nav>
+      <a href="#about" data-i18n="nav_about"></a>
+      <a href="#projects" data-i18n="nav_projects"></a>
+      <a href="#ongoingprojects" data-i18n="nav_ongoingprojects"></a>
+      <a href="#education" data-i18n="nav_education"></a>
+      <a href="#contact" data-i18n="nav_contact"></a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- About -->
+    <section id="about" class="about-section">
+  <h2 data-i18n="about_title"></h2>
+  <div class="about-container">
+    <img src="Chuxinyao Wang Hoch.jpg" alt="Photo of Chuxinyao Wang" class="profile-photo">
+    <p data-i18n="about_text"></p>
+  </div>
+</section>
+
+
+    <!-- Research interests -->
+    <section id="projects" class="section-wrapper">
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🔬</span>
+          <h2 class="section-title" data-i18n="projects_title"></h2>
+        </div>
+        <ul class="item-list">
+          <li>
+            <strong data-i18n="project1_title"></strong>
+            <span data-i18n="project1_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="project2_title"></strong>
+            <span data-i18n="project2_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="project3_title"></strong>
+            <span data-i18n="project3_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="project4_title"></strong>
+            <span data-i18n="project4_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="project5_title"></strong>
+            <span data-i18n="project5_desc"></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Ongoing projects -->
+    <section id="ongoingprojects" class="section-wrapper">
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🧪</span>
+          <h2 class="section-title" data-i18n="oprojects_title"></h2>
+        </div>
+        <ul class="item-list">
+          <li>
+            <strong data-i18n="oproject1_title"></strong>
+            <span data-i18n="oproject1_desc"></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="section-wrapper">
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">🎓</span>
+          <h2 class="section-title" data-i18n="edu_title"></h2>
+        </div>
+        <ul class="item-list edu-list">
+          <li>
+            <strong data-i18n="edu_phd_title"></strong>
+            <span data-i18n="edu_phd_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="edu_master_title"></strong>
+            <span data-i18n="edu_master_desc"></span>
+          </li>
+          <li>
+            <strong data-i18n="edu_bachelor_title"></strong>
+            <span data-i18n="edu_bachelor_desc"></span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-wrapper">
+      <div class="card">
+        <div class="section-header">
+          <span class="section-icon">✉️</span>
+          <h2 class="section-title" data-i18n="contact_title"></h2>
+        </div>
+        <p>
+          <span data-i18n="contact_email_label"></span>
+          <a href="mailto:chuxinyao.wang@eawag.ch">chuxinyao.wang@eawag.ch</a>
+        </p>
+        <p>
+          <span data-i18n="contact_other_label"></span>
+          <a href="https://github.com/cw422/Rodeo_simplified_model" target="_blank">GitHub</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n="footer_text"></p>
+  </footer>
+
+  <script>
+    // 所有文本的中英文映射
+    const translations = {
+      zh: {
+        name: "王矗鑫垚",
+        subtitle: "苏黎世联邦理工学院 / 生态建模与水生态系统",
+        nav_about: "关于我",
+        nav_projects: "研究兴趣",
+        nav_ongoingprojects: "正在进行的项目",
+        nav_education: "教育经历",
+        nav_contact: "联系",
+
+        about_title: "关于我",
+        about_text: "我是<a href='https://www.eawag.ch' target='_blank'>EAWAG</a> 系统分析、综合评估与建模（SIAM）系和 \
+        <a href='https://ethz.ch' target='_blank'>ETH Zürich</a> 环境系统科学系（D-USYS）的博士生。我的研究重点是开发水生生态系统的机制模型。\
+        在我的博士学习期间，我主要负责项目：农药污染水生中宇宙的机制建模。我将利用中宇宙实验数据开发基于机制的过程模型。\
+        我的项目由 <a href='https://www.eawag.ch/en/about-us/portrait/organisation/staff/profile/nele-schuwirth/show/' target='_blank'>Nele Schuwirth 博士</a> 和 \
+        <a href='https://www.eawag.ch/en/about-us/portrait/organisation/staff/profile/andreas-scheidegger/show/' target='_blank'>Andreas Scheidegger 博士</a> 指导。",
+
+        projects_title: "研究兴趣",
+        project1_title: "关键词：",
+        project1_desc: "数学模型，贝叶斯推断，不确定性分析，R语言编程，",
+        project2_title: "数学模型 ",
+        project2_desc: "用 ODEs 描述生态系统中群落的动态变化。",
+        project3_title: "贝叶斯推断 ",
+        project3_desc: "用贝叶斯方法进行参数估计和模型校准。",
+        project4_title: "不确定性分析 ",
+        project4_desc: "评估模型预测中的不确定性来源并量化不确定性。",
+        project5_title: "R 语言编程 ",
+        project5_desc: "使用 R 语言进行数据处理、可视化和建模。",
+
+        oprojects_title: "正在进行的项目",
+        oproject1_title: "农药污染水生中宇宙的机制建模",
+        oproject1_desc: "中观实验（Mesocosm）能更真实地还原生态系统的复杂程度，因此适合用于研究群落或生态系统在污染物压力下的动态变化，\
+以更好地理解污染对不同生物造成的直接和间接影响。详细请看 \
+<a href='https://www.eawag.ch/en/department/siam/projects/mechanistic-modelling-of-aquatic-mesocosms/' target='_blank'>项目网页</a>。",
+
+        edu_title: "教育经历",
+        edu_phd_title: "博士（PhD），苏黎世联邦理工学院（ETH Zürich）",
+        edu_phd_desc: "环境系统科学（D-USYS），2024 – 至今。",
+        edu_master_title: "硕士（MSc），伦敦帝国理工学院（Imperial College London）",
+        edu_master_desc: "生态进化的计算方法，2022 – 2023。",
+        edu_bachelor_title: "学士（BSc） 2+2，宁波诺丁汉大学 & 英国诺丁汉大学（University of Nottingham）",
+        edu_bachelor_desc: "环境科学，2018 – 2022。",
+
+        contact_title: "联系我",
+        contact_email_label: "邮箱：",
+        contact_other_label: "其他：",
+
+        footer_text: "© 2025 Chuxinyao Wang"
+      },
+      en: {
+        name: "Chuxinyao Wang",
+        subtitle: "ETH Zürich / Ecological Modelling and Aquatic Ecosystems",
+        nav_about: "About Me",
+        nav_projects: "Research Interests",
+        nav_ongoingprojects: "Ongoing Projects",
+        nav_education: "Education",
+        nav_contact: "Contact",
+
+        about_title: "About Me",
+        about_text: "I am a PhD student in the Department of Systems Analysis, Integrated Assessment and Modelling (SIAM) at \
+        <a href='https://www.eawag.ch' target='_blank'>EAWAG</a> and the Department of Environmental Systems Science (D-USYS) at \
+        <a href='https://ethz.ch' target='_blank'>ETH Zürich</a>. My research focuses on developing mechanistic models for aquatic ecosystems. \
+        During my PhD, I am primarily responsible for the project <em>Mechanistic Modelling of Aquatic Mesocosms with Pesticide Contamination</em>. \
+        I use mesocosm experimental data to develop mechanistic, process-based models that describe ecosystem dynamics. \
+        My project is supervised by \
+        <a href='https://www.eawag.ch/en/about-us/portrait/organisation/staff/profile/nele-schuwirth/show/' target='_blank'>Dr. Nele Schuwirth</a> and \
+        <a href='https://www.eawag.ch/en/about-us/portrait/organisation/staff/profile/andreas-scheidegger/show/' target='_blank'>Dr. Andreas Scheidegger</a>.",
+
+        projects_title: "Research Interests",
+        project1_title: "Keywords: ",
+        project1_desc: "Mathematical Modelling, Bayesian Inference, Uncertainty Analysis, R Programming, ",
+        project2_title: "Mathematical Modelling ",
+        project2_desc: "Describing community dynamics in ecosystems using ODEs.",
+        project3_title: "Bayesian Inference ",
+        project3_desc: "Parameter estimation and model calibration using Bayesian methods.",
+        project4_title: "Uncertainty Analysis ",
+        project4_desc: "Assessing sources of uncertainty in model predictions and quantifying uncertainty.",
+        project5_title: "R Programming ",
+        project5_desc: "Data processing, visualization, and modelling using R.",
+
+        oprojects_title: "Ongoing Projects",
+        oproject1_title: "Mechanistic Modelling of Aquatic Mesocosms with Pesticide Contamination",
+        oproject1_desc: "Mesocosm experiments capture ecological complexity more realistically than laboratory approaches, \
+making them well suited for studying how communities or ecosystems respond dynamically to pollutant stressors. \
+They allow researchers to investigate both direct and indirect effects across multiple trophic levels. \
+For more details, see the <a href='https://www.eawag.ch/en/department/siam/projects/mechanistic-modelling-of-aquatic-mesocosms/' target='_blank'>project webpage</a>.",
+
+        edu_title: "Education",
+        edu_phd_title: "PhD, ETH Zürich",
+        edu_phd_desc: "Environmental Systems Science (D-USYS), 2024 – Present.",
+        edu_master_title: "MSc, Imperial College London",
+        edu_master_desc: "Computational Methods in Ecology and Evolution, 2022 – 2023.",
+        edu_bachelor_title: "BSc 2+2, University of Nottingham Ningbo China & University of Nottingham (UK)",
+        edu_bachelor_desc: "Environmental Science, 2018 – 2022.",
+
+        contact_title: "Contact",
+        contact_email_label: "Email: ",
+        contact_other_label: "Others: ",
+
+        footer_text: "© 2025 Chuxinyao Wang"
+      }
+    };
+
+    // 设置语言的函数
+    function setLanguage(lang) {
+      const dict = translations[lang];
+      if (!dict) return;
+
+      // 改 html 标签上的 lang 属性，利于搜索引擎和可访问性
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+
+      // 找到所有带 data-i18n 属性的元素，替换文本（支持 HTML）
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) {
+          el.innerHTML = dict[key];
+        }
+      });
+
+      // 按钮高亮状态
+      document.getElementById("btn-zh").classList.toggle("active", lang === "zh");
+      document.getElementById("btn-en").classList.toggle("active", lang === "en");
+    }
+
+    // 默认加载英文
+    setLanguage("en");
+  </script>
+</body>
+</html>
